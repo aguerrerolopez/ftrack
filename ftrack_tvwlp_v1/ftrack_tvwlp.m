@@ -152,9 +152,23 @@ addpath ./GLOAT/
         n1ms=floor(fs/1000);
         [S,f,t]=spectrogram(s,20*n1ms,15*n1ms,2^10,fs);
         figure;imagesc(t,f/1000,20*log10(abs(S)));axis xy;colorbar;
-        xlabel('Time (s)');ylabel('Freq (kHz)');
-        hold on;plot((fint:fint:Ns)/fs,Fi'/1000,'.k');
-    end
+        xlabel('Time (s)'); ylabel('Freq (kHz)');
+        % Modified to plot the formant tracks with different colours
+        hold on;
+        
+        % Generate distinct colors for each formant track
+        colors = lines(size(Fi, 2)); % 'lines' colormap generates a maximum of 7 colors
+        
+        % Plot each formant with a different color
+        for k = 1:size(Fi, 2)
+            plot((fint:fint:length(s))/fs, Fi(:,k)/1000, 'Color', colors(k,:), 'Marker', '.', 'LineStyle', 'none');
+        end
+        
+        % Add legend to the plot
+        legend(arrayfun(@(x) sprintf('F%d', x), 1:size(Fi, 2), 'UniformOutput', false));
+        
+        hold off;
+        end
     
 return;
     
