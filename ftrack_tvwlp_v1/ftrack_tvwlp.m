@@ -1,4 +1,4 @@
-function [Fi,Ak] = ftrack_tvwlp(s,fs,lptype,nwin,nshift,p,q,npeaks,PREEMP,fint,PLOT_FLAG)
+function [Fi,Ak] = ftrack_tvwlp(s,fs,lptype,nwin,nshift,p,q,npeaks,PREEMP,fint,PLOT_FLAG, SAVE_PLOT_FLAG, wavFilePath)
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Usage: [Fi,Ak] = ftrack_tvwlp(s,fs,lptype,nwin,nshift,p,q,npeaks,PREEMP,fint,PLOT_FLAG)
@@ -19,6 +19,8 @@ function [Fi,Ak] = ftrack_tvwlp(s,fs,lptype,nwin,nshift,p,q,npeaks,PREEMP,fint,P
 %   PREEMP  - preemphasis factor [default 0.97]
 %   fint    - formant interval in samples fs/fint gives the output formant rate  [default 80] (10 ms)
 %   PLOT_FLAG - plot flag [default 0]
+%   SAVE_PLOT_FLAG - save plot flag [default 0]
+%   wavFilePath - path to the wav file [default '']
 %
 % OUTPUTS:
 %   Fi      - Formant tracks [npeaks x Ns] where Ns is signal length
@@ -168,6 +170,18 @@ addpath ./GLOAT/
         legend(arrayfun(@(x) sprintf('F%d', x), 1:size(Fi, 2), 'UniformOutput', false));
         
         hold off;
+
+        % Modified: added a new section to decide if the plot has to be saved as .png file in the same directory where the .wav was
+        % Save the plot as a PNG if the flag is set
+        if (SAVE_PLOT_FLAG)
+            % Construct the path with .png extension
+            [filePath, fileName, ~] = fileparts(wavFilePath); % wavFilePath should be defined earlier in the script
+            pngFilePath = fullfile(filePath, [fileName, '.png']);
+            
+            % Save the figure
+            saveas(gcf, pngFilePath);
+        end
+
         end
     
 return;
