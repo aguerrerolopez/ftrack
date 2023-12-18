@@ -1,11 +1,12 @@
 % test.m
-% Script to read a wav file, process it using ftrack_tvwlp, and plot formant tracks.
+% Script to read a wav file, process it using ftrack_tvwlp, and plot
+% formant tracks.
 addpath("ftrack_tvwlp_v1/GLOAT/")
 addpath("ftrack_tvwlp_v1/")
 
 
 % Path to the wav file - replace this with your actual file path
-wavFilePath = '../data/data_final/Audios/Contr/Speech/1/Contr_ses1_speech_0012.wav'; % TODO: Replace with your actual file path
+wavFilePath = '../data/data_final/Audios/Contr/A/1/Contr_ses1_a_0014.wav'; % TODO: Replace with your actual file path
 
 % Read the audio file
 [s, fs] = audioread(wavFilePath);
@@ -19,12 +20,12 @@ end
 
 % Set parameters for ftrack_tvwlp function
 lptype = 'tvwlp_l2'; % Type of LP analysis
-nwin = 1600; % Window size for analysis
-nshift = 1600; % Window shift
-p = 8; % LP order
-q = 3; % Polynomial order
+nwin = 160; % Window size for analysis
+nshift = 80; % Window shift
+p = 12; % LP order
+q = 0; % Polynomial order
 npeaks = 3; % Number of formants to track
-PREEMP = 0.97; % Preemphasis factor
+PREEMP = 0.7; % Preemphasis factor
 fint = 80; % Formant interval in samples
 PLOT_FLAG = 1; % Plot flag (set to 0 as we will plot separately)
 SAVE_PLOT_FLAG = 1; % Save flag (set 1 if you want to save the image in a .png file
