@@ -34,6 +34,8 @@ function [Fi,Ak] = ftrack_tvwlp(s,fs,lptype,nwin,nshift,p,q,npeaks,PREEMP,fint,P
 % Author: D.Gowda, 24 Oct, 2016
 %%%%%%%%%%%%%%%%%%%%%
 addpath ./GLOAT/
+    
+    
 
     fs_ref=8000;
     n1ms=floor(fs_ref/1000);
@@ -61,6 +63,16 @@ addpath ./GLOAT/
     end  
     if(~exist('PLOT_FLAG','var'))
         PLOT_FLAG = 0;
+    end
+
+    % Make sure the wavFilePath is provided when PLOT_FLAG is true
+    if PLOT_FLAG && nargin < 12
+        error('wavFilePath must be provided when PLOT_FLAG is true.');
+    end
+    
+    % Make sure the SAVE_PLOT_FLAG is provided when PLOT_FLAG is true
+    if PLOT_FLAG && nargin < 13
+        SAVE_PLOT_FLAG = false; % Default is not to save the plot
     end
     
     if(fs ~= fs_ref)
@@ -159,15 +171,15 @@ addpath ./GLOAT/
         hold on;
         
         % Generate distinct colors for each formant track
-        colors = lines(size(Fi, 2)); % 'lines' colormap generates a maximum of 7 colors
+        colors = lines(size(Fi, 1)); % 'lines' colormap generates a maximum of 7 colors
         
         % Plot each formant with a different color
-        for k = 1:size(Fi, 2)
-            plot((fint:fint:length(s))/fs, Fi(:,k)/1000, 'Color', colors(k,:), 'Marker', '.', 'LineStyle', 'none');
+        for k = 1:size(Fi, 1)
+            plot((fint:fint:length(s))/fs, Fi(k,:)'/1000, 'Color', colors(k,:), 'Marker', '.', 'LineStyle', 'none');
         end
         
         % Add legend to the plot
-        legend(arrayfun(@(x) sprintf('F%d', x), 1:size(Fi, 2), 'UniformOutput', false));
+        legend(arrayfun(@(x) sprintf('F%d', x), 1:size(Fi, 1), 'UniformOutput', false));
         
         hold off;
 
@@ -182,7 +194,7 @@ addpath ./GLOAT/
             saveas(gcf, pngFilePath);
         end
 
-        end
+    end
     
 return;
     

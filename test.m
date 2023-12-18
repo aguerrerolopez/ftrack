@@ -5,7 +5,7 @@ addpath("ftrack_tvwlp_v1/")
 
 
 % Path to the wav file - replace this with your actual file path
-wavFilePath = '/home/alexjorguer/GitHub/CUCOdb/data/data_final/Audios/Contr/Speech/1/Contr_ses1_speech_0012.wav'; % TODO: Replace with your actual file path
+wavFilePath = '../data/data_final/Audios/Contr/Speech/1/Contr_ses1_speech_0012.wav'; % TODO: Replace with your actual file path
 
 % Read the audio file
 [s, fs] = audioread(wavFilePath);
@@ -27,8 +27,7 @@ npeaks = 3; % Number of formants to track
 PREEMP = 0.97; % Preemphasis factor
 fint = 80; % Formant interval in samples
 PLOT_FLAG = 1; % Plot flag (set to 0 as we will plot separately)
+SAVE_PLOT_FLAG = 1; % Save flag (set 1 if you want to save the image in a .png file
 
 % Call ftrack_tvwlp function from the repository
-[Fi, Ak] = ftrack_tvwlp(s, fs, lptype, nwin, nshift, p, q, npeaks, PREEMP, fint, PLOT_FLAG);
-
-
+[Fi, Ak] = ftrack_tvwlp(s, fs, lptype, nwin, nshift, p, q, npeaks, PREEMP, fint, PLOT_FLAG, SAVE_PLOT_FLAG, wavFilePath);
