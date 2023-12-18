@@ -1,5 +1,5 @@
 % Define the directory path here
-directoryPath = 'path_to_your_directory'; % Replace with your actual directory path
+directoryPath = '../data/data_final/'; % Replace with your actual directory path
 
 % Search for all .wav files in the directory and its subdirectories
 files = dir(fullfile(directoryPath, '**', '*.wav'));
