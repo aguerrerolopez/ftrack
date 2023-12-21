@@ -60,6 +60,21 @@ SAVE_PLOT_FLAG = 1;
 % Loop over each file and process
 for k = 1:length(files)
     wavFilePath = fullfile(files(k).folder, files(k).name);
+
+    % Check if the path contains the folder "Un", they are too short to compute the formants
+    if contains(wavFilePath, filesep + "Un" + filesep)
+        continue; % Skip this file and move to the next iteration
+    end
+
+    % Check if the path contains the folder "Contr", they are already calculated
+    if contains(wavFilePath, filesep + "Contr" + filesep)
+        continue; % Skip this file and move to the next iteration
+    end
+
+    if contains(wavFilePath, filesep + "Fess" + filesep)
+        continue; % Skip this file and move to the next iteration
+    end
+
     [s, fs] = audioread(wavFilePath);
     display(wavFilePath);
     
@@ -72,7 +87,11 @@ for k = 1:length(files)
     
     % Call your formant tracking function with the downsampled signal 's'
     [Fi, Ak] = ftrack_tvwlp(s, fs, lptype, nwin, nshift, p, q, npeaks, PREEMP, fint, PLOT_FLAG, SAVE_PLOT_FLAG, wavFilePath);
-
+    
+    if isempty(Fi)
+        continue; % Skip this file and move to the next iteration
+    end
+    
     % For the purpose of this example, let's say Fi and Ak are obtained
     % Fi = [F1_values; F2_values; F3_values];
 

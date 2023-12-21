@@ -33,8 +33,6 @@ function [Fi,Ak] = ftrack_tvwlp(s,fs,lptype,nwin,nshift,p,q,npeaks,PREEMP,fint,P
 %
 % Author: D.Gowda, 24 Oct, 2016
 %%%%%%%%%%%%%%%%%%%%%
-addpath ./GLOAT/
-    
     
 
     fs_ref=8000;
@@ -99,7 +97,7 @@ addpath ./GLOAT/
             Nramp = 3; % Length of linear ramp (in samples)
 
             f0min=60;
-            f0max=600;
+            f0max=400; % i've modified this it was 600
             % Pitch tracking using a method based on the Summation of the Residual Harmonics
             [f0,VUV] = SRH_PitchTracking(s,fs,f0min,f0max);
             f0_tmp=f0.*VUV;
@@ -171,11 +169,15 @@ addpath ./GLOAT/
         hold on;
         
         % Generate distinct colors for each formant track
-        colors = lines(size(Fi, 1)); % 'lines' colormap generates a maximum of 7 colors
-        
+        colors = {"black", "red", "blue", "magenta", "cyan", "red", "purple", "orange", "brown"};
+
+        if size(Fi,1) > length(colors)
+            error('Not enough colors for the number of formants')
+        end
+
         % Plot each formant with a different color
         for k = 1:size(Fi, 1)
-            plot((fint:fint:length(s))/fs, Fi(k,:)'/1000, 'Color', colors(k,:), 'Marker', '.', 'LineStyle', 'none');
+            plot((fint:fint:length(s))/fs, Fi(k,:)'/1000, 'Color', colors{k}, 'Marker', '.', 'LineStyle', 'none');
         end
         
         % Add legend to the plot
