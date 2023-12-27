@@ -97,7 +97,7 @@ function [Fi,Ak] = ftrack_tvwlp(s,fs,lptype,nwin,nshift,p,q,npeaks,PREEMP,fint,P
             Nramp = 3; % Length of linear ramp (in samples)
 
             f0min=60;
-            f0max=400; % i've modified this it was 600
+            f0max=600; 
             % Pitch tracking using a method based on the Summation of the Residual Harmonics
             [f0,VUV] = SRH_PitchTracking(s,fs,f0min,f0max);
             f0_tmp=f0.*VUV;
