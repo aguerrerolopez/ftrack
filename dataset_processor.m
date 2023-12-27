@@ -61,20 +61,6 @@ SAVE_PLOT_FLAG = 1;
 for k = 1:length(files)
     wavFilePath = fullfile(files(k).folder, files(k).name);
 
-    % Check if the path contains the folder "Un", they are too short to compute the formants
-    if contains(wavFilePath, filesep + "Un" + filesep)
-        continue; % Skip this file and move to the next iteration
-    end
-
-    % Check if the path contains the folder "Contr", they are already calculated
-    if contains(wavFilePath, filesep + "Contr" + filesep)
-        continue; % Skip this file and move to the next iteration
-    end
-
-    if contains(wavFilePath, filesep + "Fess" + filesep)
-        continue; % Skip this file and move to the next iteration
-    end
-
     [s, fs] = audioread(wavFilePath);
     display(wavFilePath);
     
